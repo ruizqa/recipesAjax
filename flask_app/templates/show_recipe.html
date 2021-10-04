@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Recipe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-1 fixed-top">
+        <div class="container">
+          <a href="#" class="navbar-brand">Recipes Core Assignment</a>
+  
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navmenu"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="collapse navbar-collapse" id="navmenu">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a href="/homepage" class="nav-link">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a href="/logout" class="nav-link">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <section class="py-5"></section>
+    
+    <section>
+        <div class="container-fluid">
+            <div class="row g-5">
+                <div class="col">
+                    <div class="h1 text-primary text-start my-2">Welcome {{user['first_name']}}</div>
+                    <div class="h1 r-name text-secondary my-2">{{recipe['name']}}</div>
+                    <table class="table table-striped table-hover my-5 fs-5">
+                        <tr>
+                            <td class="fs-4 fw-bolder">
+                                Description:
+                            </td>
+                            <td class="description">
+                                {{recipe['description']}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="fs-4 fw-bolder">
+                                Under 30 minutes:
+                            </td>
+                            <td class="under_30min">
+                                {{recipe['under_30min']}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="fs-4 fw-bolder">
+                                Instructions:
+                            </td>
+                            <td class="instructions">
+                                {{recipe['instructions']}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="fs-4 fw-bolder">
+                                Made on:
+                            </td>
+                            <td class="made_on">
+                                {{recipe['made_on'].strftime("%B %d, %Y")}}
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </div>
+            
+
+
+                {% if recipe['user_id'] == session['user_id'] %}
+                <div class="col">
+
+                    <div class="h1 text-secondary ny-5">Edit Recipe</div>
+
+                    <form class="recipe-update">
+                        <div class="messages"></div>
+                        <input type="hidden" name="id" value="{{recipe['id']}}">
+
+                        <div class="form-group my-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" name="name" class="form-control" value="{{recipe['name']}}">
+                        </div> 
+
+                        <div class="form-group my-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea name="description" class="form-control" >{{recipe['description']}}</textarea>
+                        </div> 
+
+                        <div class="form-group my-3">
+                            <label for="instructions" class="form-label">Instructions</label>
+                            <textarea name="instructions" class="form-control">{{recipe['instructions']}}</textarea>
+                        </div> 
+
+                        
+                        
+                        <div class="form-group my-3">
+                            <label for="made_on" class="form-label">Date Made On:</label>
+                            <input type="date" name="made_on" class="form-control" value= "{{recipe['made_on'].strftime('%Y-%m-%d')}}">
+                        </div>
+
+                        <div class="form-group my-3">
+                            <p>Under 30 min?</p>
+                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                {% if recipe['under_30min'] == "Yes" %}
+                                    <input type="radio" name="under_30min" value = "Yes" class="under_30min form-check-input mx-3" checked>
+                                    <label class="form-check-label" for="Yes">Yes</label>
+                                    <input type="radio" name="under_30min" value = "No" class="under_30min form-check-input mx-3">
+                                    <label class="form-check-label" for="No">No</label>
+                                {% else %}
+                                    <input type="radio" name="under_30min" value = "Yes" class="under_30min form-check-input mx-3">
+                                    <label class="form-check-label" for="Yes">Yes</label>
+                                    <input type="radio" name="under_30min" value = "No" class="under_30min form-check-input mx-3" checked>
+                                    <label class="form-check-label" for="No">No</label>
+                                {% endif %}
+                            </div>
+
+                        <div class="form-group my-3  text-center">
+                            <input type="submit" value="Edit" class="my-3 px-5 btn btn-primary">
+                        </div>
+
+                    </form>
+
+
+
+                </div>
+                {% endif %}
+            </div>
+        </div>        
+    </section>
+        
+    
+
+
+    <section class="py-5 my-5"></section>
+
+    <footer class="col-12 p-1 bg-dark text-white text-center position-fixed bottom-0">
+            <p class="lead">Coding Dojo Web Dev Bootcamp</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{url_for('static',filename='main.js')}}"></script>
+</body>
+</html>
